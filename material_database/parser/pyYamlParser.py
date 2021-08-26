@@ -45,9 +45,9 @@ class PyYamlParser():
         self.logger.setLevel(level=log_level)
         if path.exists(base_path):
             self.base_path = base_path
-            self.logger.info('base path of PyYamlParser set to: {:s}'.format(base_path))
+            self.logger.info('Base path of PyYamlParser set to: {:s}'.format(base_path))
         else:
-            self.logger.error('path {:s} does not exist!'.format(base_path))
+            self.logger.error('Path {:s} does not exist!'.format(base_path))
 
     def load(self, material):
         """load a yaml file
@@ -69,7 +69,7 @@ class PyYamlParser():
         bibtex = material_data['meta']['references']
 
         # convert bibtex into list of dicts
-        ## these two lines also allow for other types than the standard:
+        # these two lines also allow for other types than the standard:
 
         # 'article',
         # 'book',
@@ -88,7 +88,7 @@ class PyYamlParser():
 
         parser = bibtexparser.bparser.BibTexParser(common_strings=False)
         parser.ignore_nonstandard_types = False
-        #parser.homogenise_fields = False
+        # parser.homogenise_fields = False
 
         bib_list = bibtexparser.loads(bibtex, parser).entries
 
@@ -97,20 +97,22 @@ class PyYamlParser():
         for bibtex_entry in bib_list:
             bib_dict[bibtex_entry['ID']] = bibtex_entry
             del bib_dict[bibtex_entry['ID']]['ID']
-        self.logger.info('found {:d} bibtex entries and converted them to Python '
-                         'dictionaries'.format(len(bib_dict)))
+        self.logger.info('found {:d} bibtex entries and converted them to'
+                         'Python dictionaries'.format(len(bib_dict)))
         # replace bibtex string with dict
         material_data['meta']['references'] = bib_dict
 
-        # This part fixes the issue that pyYaml imports complex numbers as strings.
-        # Manually stepping throuh the whole array and turns strings into complex numbers
+        # This part fixes pyYaml's issue in reading complex numbers as strings.
+        # Manually step through the array and turn strings into complex numbers
         for prop_key, prop_value in material_data['data'].items():
             for cite_key, cite_value in prop_value.items():
                 if type(cite_value['value']) == str:
                     self.logger.info(cite_value['value'])
-                    material_data['data'][prop_key][cite_key]['value'] = complex(cite_value['value'].replace("i",  "j").replace(" ",  ""))
+                    complex_corrected = complex(cite_value['value'].replace("i", "j").replace(" ",  ""))
+                    material_data['data'][prop_key][cite_key]['value'] = complex_corrected
                 elif type(cite_value['value']) == list and type(cite_value['value'][0]) == str:
-                    material_data['data'][prop_key][cite_key]['value'] = [complex(v.replace("i",  "j").replace(" ", "")) for v in cite_value['value']]
+                    complex_corrected = [complex(v.replace("i",  "j").replace(" ", "")) for v in cite_value['value']]
+                    material_data['data'][prop_key][cite_key]['value'] = complex_corrected
                 else:
                     pass
         return material_data
@@ -118,7 +120,8 @@ class PyYamlParser():
     def dump(self, material_data):
         """dump dictionary to yaml file
 
-        converts a dictionary into a yaml file which is returned by this function
+        converts a dictionary into a yaml file
+        which is returned by this function
 
         """
 
@@ -135,22 +138,22 @@ class PyYamlParser():
                               allow_unicode=True,
                               sort_keys=False)).rstrip(" ")
         split_meta = meta_str.split("\n")
-        for str_inx,sub_str in enumerate(split_meta):
-            yaml_meta += '  ' + sub_str + '\n'        
+        for str_inx, sub_str in enumerate(split_meta):
+            yaml_meta += '  ' + sub_str + '\n'
         yaml_meta = yaml_meta[:-2]
-        
+
         bib_list = []
-        for dic_name,dic_data in bib_dict.items():
+        for dic_name, dic_data in bib_dict.items():
             dic_data['ID'] = dic_name
             bib_list.append(dic_data)
         bib_Obj = BibDatabase()
         bib_Obj.entries = bib_list
-        bib_str = bibtexparser.dumps(bib_Obj)        
+        bib_str = bibtexparser.dumps(bib_Obj)
         split_bib = bib_str.split("\n")
-        indexes = [i for i,x in enumerate(split_bib) if re.search(r'^@[A-Za-z0-9]+{',x)]
-        
+        indexes = [i for i, x in enumerate(split_bib) if re.search(r'^@[A-Za-z0-9]+{',x)]
+
         yaml_bib = " references: \n"
-        for str_inx,sub_str in enumerate(split_bib):
+        for str_inx, sub_str in enumerate(split_bib):
             if str_inx in indexes:
                 if str_inx == indexes[0]:
                     yaml_bib += "   '" + sub_str + '\n'
@@ -160,14 +163,15 @@ class PyYamlParser():
                 yaml_bib += '        ' + sub_str + '\n'
         yaml_bib = yaml_bib[:-2]
         yaml_bib += "'\n"
-            
+
         # add a data header
         yaml_data = "data:\n"
 
         '''
         Loop through the parameter names and reference names and add each key
         to the yaml data string.
-        The data string has two spaces in front and the reference name four spaces.
+        The data string has two spaces in front and the
+        reference name four spaces.
         The type of value determines which flow_style is used to convert the
         value dict into a yaml string.
         Values that are dict are converted as flow_style = None and
@@ -182,11 +186,10 @@ class PyYamlParser():
                 yaml_data += '    ' + ref_name + ':\n'
                 value = par[ref_name]['value']
 
-                if(value == None or value == 'null'):
+                if(value is None or value == 'null'):
                     tmp_yaml = yaml.dump(par[ref_name],
-                                        default_flow_style=None,
-                                        allow_unicode=True,
-                                        sort_keys=False)
+                                         default_flow_style=None,
+                                         sort_keys=False)
                 else:
                     tmp_yaml = yaml.dump(par[ref_name],
                                          default_flow_style=False,
@@ -195,28 +198,24 @@ class PyYamlParser():
 
                 # Six spaces are added in front of each value line.
                 split_tmp = tmp_yaml.split('\n')
-                for str_inx,sub_str in enumerate(split_tmp):
+                for str_inx, sub_str in enumerate(split_tmp):
                     yaml_data += '      ' + sub_str + '\n'
-                    #split_tmp[0] = '      ' + split_tmp[0]
-                #yaml_par = '\n'.join(split_tmp)
-                #yaml_data += yaml_par
+                    # split_tmp[0] = '      ' + split_tmp[0]
+                # yaml_par = '\n'.join(split_tmp)
+                # yaml_data += yaml_par
 
             yaml_data = yaml_data.rstrip(' ')
 
         # Concat the meta, references and data yaml string and return it
         yamlFile = yaml_meta + yaml_bib + '\n' + yaml_data
 
-        
         full_file_name = path.join(path.abspath(self.base_path),
-                                   meta_dict['name'].replace(' ','_') + '.yaml')
+                                   meta_dict['name'].replace(' ', '_') + '.yaml')
         # read yaml file
         f = open(full_file_name, "w")
         f.write(yamlFile)
         f.close()
-        #with open(full_file_name, 'r') as file:
+        # with open(full_file_name, 'r') as file:
         #    material_data = yaml.load(file, Loader=yaml.FullLoader)
-            
-            
+
         return yamlFile
-        
-        

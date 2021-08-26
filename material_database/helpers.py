@@ -37,5 +37,7 @@ def name_to_identifer(name):
     else:
         raise Exception('name "{:s}" is not a valid identifier'.format(res))
 
+
 def trim_dict_name(name, trim_str):
-    return name.replace(trim_str,'')
+    return name.replace(trim_str, '')
+    

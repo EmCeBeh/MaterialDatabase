@@ -1,0 +1,84 @@
+meta:
+  name: nickel
+  last_updated: 7272181873150
+  description: null
+  comment: null
+  references: 
+   '@article{ri_info,
+         author = {refractiveindex.info},
+         journal = {},
+         pages = {},
+         title = {Nickel},
+         urls = {https://refractiveindex.info/?shelf=main&book=Ni&page=Johnson},
+         volume = {},
+         year = {}
+        }
+        
+    @article{wikipedia,
+         author = {Wikipedia},
+         journal = {},
+         pages = {},
+         title = {Nickel},
+         url = {https://de.wikipedia.org/wiki/Nickel},
+         volume = {},
+         year = {}
+        }
+        
+       '
+
+data:
+  thermal_conductivity:
+    wikipedia:
+      value: 91
+      uncertainty: 0
+      unit: ''
+      comment: ''
+      units: W/(mK)
+      
+    ri_info:
+      value: 90
+      uncertainty: 0
+      unit: ''
+      comment: ''
+      units: W/(mK)
+      
+  molar_volume:
+    wikipedia:
+      value: 6.59e-06
+      uncertainty: 0
+      unit: ''
+      comment: ''
+      units: m^3/mol
+      
+  boiling_point:
+    wikipedia:
+      value: 3003.0
+      uncertainty: 0
+      unit: ''
+      comment: ''
+      units: K
+      
+  melting_point:
+    wikipedia:
+      value: 1728.0
+      uncertainty: 0
+      unit: ''
+      comment: ''
+      units: K
+      
+  refractive_index:
+    ri_info:
+      value: !!python/complex '1.0+2.0j'
+      uncertainty: 0
+      unit: ''
+      comment: ''
+      arg_value: 0.188
+      arg_name: Wavelength
+      arg_unit: µm
+      
+    wikipedia:
+      value: 1
+      uncertainty: 0
+      unit: ''
+      comment: ''
+      

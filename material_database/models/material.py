@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2020 Felix Steinbach, Daniel Schick
+# Copyright (C) 2021 Felix Steinbach, Daniel Schick, Martin Borchert
 
 """A :mod:`Material` module """
 
@@ -25,7 +25,6 @@ __all__ = ["Material"]
 __docformat__ = "restructuredtext"
 
 import logging
-import re
 from .parameter import Parameter
 from .reference import Reference
 from ..helpers import name_to_identifer
@@ -130,7 +129,8 @@ class Material():
     def validate(self):
         """validate
 
-        Some documentation here.
+            Checks weather a new parameter is given
+            for an existing reference
 
         """
         par_list = self.list_parameters()
@@ -149,12 +149,15 @@ class Material():
 
         """
         ref_list = self.list_references()
-        
+
         if parameter.validate(ref_list):
-            tmp_par_dict = {}
+            try:
+                tmp_par_dict = self.__dict__[parameter.name]
+            except:
+                tmp_par_dict = {}
             tmp_par_dict[parameter.ref_ID] = parameter
             self.__dict__[parameter.name] = tmp_par_dict
-            print('Added parameter %s with reference %s correctly to database.'%(parameter.name,parameter.ref_ID))
+
             self.logger.info('Added parameter %s with reference %s correctly to database.'%(parameter.name,parameter.ref_ID))
 
 
@@ -177,8 +180,7 @@ class Material():
         par_list = []
         for par_name in self.__dict__:
             if type(self.__dict__[par_name])==dict:
-                for sub_dict_name in self.__dict__[par_name]:
-                    par_list.append((par_name,sub_dict_name))
+                par_list.append(par_name)
         return par_list
         
 

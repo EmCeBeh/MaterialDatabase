@@ -35,7 +35,7 @@ class Parameter():
 
     """
 
-    def __init__(self, name,ref_Id, data = None, log_level=logging.WARNING):
+    def __init__(self, name, ref_Id, data=None, log_level=logging.WARNING):
         self.logger = logging.getLogger(__name__)
         self.log_level = log_level
         self.logger.setLevel(level=self.log_level)
@@ -111,8 +111,8 @@ class Parameter():
 
         """
         if self.ref_ID not in ref_list:
-            print('Reference %s of parameter %s is not in database.'%(self.ref_ID,self.name))
-            self.logger.fatal('Reference %s of parameter %s is not in database.'%(self.ref_ID,self.name))
+            print('Reference %s of parameter %s is not in database.'%(self.ref_ID, self.name))
+            self.logger.fatal('Reference %s of parameter %s is not in database.'%(self.ref_ID, self.name))
             return False
         return True
 

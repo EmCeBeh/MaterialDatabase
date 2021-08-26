@@ -11,7 +11,7 @@ meta:
       url = "https://de.wikipedia.org/wiki/Nickel"
       }
 
-     @online{ri_info,
+     @article{ri_info,
       author = "refractiveindex.info",
       title = "Nickel",
       urls = "https://refractiveindex.info/?shelf=main&book=Ni&page=Johnson"
