@@ -106,7 +106,7 @@ class Material():
                     tmp_par_dict[par_name] = par_data.dump()
                 par_dict[par] = tmp_par_dict
             mat_dict['data'] = par_dict
-            
+
             meta_dict = {}
             ref_dict = {}
             for ref in ref_list:
@@ -177,7 +177,7 @@ class Material():
         """
         par_list = []
         for par_name in self.__dict__:
-            if type(self.__dict__[par_name])==dict:
+            if type(self.__dict__[par_name]) == dict:
                 par_list.append(par_name)
         return par_list
 

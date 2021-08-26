@@ -35,7 +35,7 @@ class Reference():
 
     """
 
-    def __init__(self, ID, data = None, log_level = logging.WARNING):
+    def __init__(self, ID, data=None, log_level=logging.WARNING):
         self.logger = logging.getLogger(__name__)
         self.log_level = log_level
         self.logger.setLevel(level=self.log_level)
