@@ -106,7 +106,6 @@ class Parameter():
         self.__unit = v
         # self.__dict__[self.ref_ID]['value'] = v
 
-
     def validate(self, ref_list):
         """validate
 

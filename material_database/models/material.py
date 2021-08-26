@@ -138,7 +138,7 @@ class Material():
                 if not par_data.validate(ref_list):
                     return False
         return True
-             
+
     def add_parameter(self, parameter):
         """add_parameter
 
@@ -156,7 +156,7 @@ class Material():
             self.__dict__[parameter.name] = tmp_par_dict
 
             self.logger.info('Added parameter %s with reference %s correctly'
-                             'to database.'%(parameter.name,parameter.ref_ID))
+                             'to database.'%(parameter.name, parameter.ref_ID))
 
     def add_reference(self, reference):
         """add_reference
