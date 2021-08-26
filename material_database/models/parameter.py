@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2020 Felix Steinbach, Daniel Schick
+# Copyright (C) 2021 Felix Steinbach, Daniel Schick, Martin Borchert
 
 """A :mod:`Parameter` module """
 
@@ -45,12 +45,11 @@ class Parameter():
         self.__uncertainty = 0
         self.__unit = ''
         self.__comment = ''
-        
+
         if data is not None:
-        
+
             for par_name, par_data in data.items():
                 setattr(self, par_name, par_data)
-                
 
     def addValueList(self, name, valList):
         setattr(self, name, valList)
@@ -62,10 +61,11 @@ class Parameter():
     @value.setter
     def value(self, v):
         self.logger.info('setting the value is not that simple')
-        self.logger.info('we need to change the value also in the dict of the corresponding '
-                         'reference ID: "{:s}"'.format(self.ref_ID))
+        self.logger.info('we need to change the value also in the'
+                         'dict of them corresponding reference'
+                         'ID: "{:s}"'.format(self.ref_ID))
         self.__value = v
-        #self.__dict__[self.ref_ID]['value'] = v
+        # self.__dict__[self.ref_ID]['value'] = v
 
     @property
     def uncertainty(self):
@@ -74,10 +74,11 @@ class Parameter():
     @uncertainty.setter
     def uncertainty(self, v):
         self.logger.info('setting the value is not that simple')
-        self.logger.info('we need to change the value also in the dict of the corresponding '
-                         'reference ID: "{:s}"'.format(self.ref_ID))
+        self.logger.info('we need to change the value also in the'
+                         'dict of them corresponding reference'
+                         'ID: "{:s}"'.format(self.ref_ID))
         self.__uncertainty = v
-        #self.__dict__[self.ref_ID]['value'] = v
+        # self.__dict__[self.ref_ID]['value'] = v
 
     @property
     def comment(self):
@@ -86,10 +87,11 @@ class Parameter():
     @comment.setter
     def comment(self, v):
         self.logger.info('setting the value is not that simple')
-        self.logger.info('we need to change the value also in the dict of the corresponding '
-                         'reference ID: "{:s}"'.format(self.ref_ID))
+        self.logger.info('we need to change the value also in the'
+                         'dict of them corresponding reference'
+                         'ID: "{:s}"'.format(self.ref_ID))
         self.__comment = v
-        #self.__dict__[self.ref_ID]['value'] = v
+        # self.__dict__[self.ref_ID]['value'] = v
 
     @property
     def unit(self):
@@ -98,10 +100,11 @@ class Parameter():
     @unit.setter
     def unit(self, v):
         self.logger.info('setting the value is not that simple')
-        self.logger.info('we need to change the value also in the dict of the corresponding '
-                         'reference ID: "{:s}"'.format(self.ref_ID))
+        self.logger.info('we need to change the value also in the'
+                         'dict of them corresponding reference'
+                         'ID: "{:s}"'.format(self.ref_ID))
         self.__unit = v
-        #self.__dict__[self.ref_ID]['value'] = v
+        # self.__dict__[self.ref_ID]['value'] = v
 
 
     def validate(self, ref_list):
@@ -111,8 +114,10 @@ class Parameter():
 
         """
         if self.ref_ID not in ref_list:
-            print('Reference %s of parameter %s is not in database.'%(self.ref_ID, self.name))
-            self.logger.fatal('Reference %s of parameter %s is not in database.'%(self.ref_ID, self.name))
+            print('Reference %s of parameter %s is'
+                  'not in database.'%(self.ref_ID, self.name))
+            self.logger.fatal('Reference %s of parameter %s is not'
+                              'in database.'%(self.ref_ID, self.name))
             return False
         return True
 
@@ -120,6 +125,7 @@ class Parameter():
         par_dict = {}
         for par_name, par_data in self.__dict__.items():
             trim_name = trim_dict_name(par_name, '_Parameter__')
-            if not (trim_name == 'log_level' or trim_name == 'logger' or trim_name == 'ref_ID' or trim_name == 'name'):
+            if not (trim_name == 'log_level' or trim_name == 'logger' or
+                    trim_name == 'ref_ID' or trim_name == 'name'):
                 par_dict[trim_name] = par_data
         return par_dict

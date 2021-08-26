@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2020 Felix Steinbach, Daniel Schick
+# Copyright (C) 2021 Felix Steinbach, Daniel Schick, Martin Borchert
 
 """A :mod:`PyYamlParser` module """
 
@@ -150,7 +150,7 @@ class PyYamlParser():
         bib_Obj.entries = bib_list
         bib_str = bibtexparser.dumps(bib_Obj)
         split_bib = bib_str.split("\n")
-        indexes = [i for i, x in enumerate(split_bib) if re.search(r'^@[A-Za-z0-9]+{',x)]
+        indexes = [i for i, x in enumerate(split_bib) if re.search(r'^@[A-Za-z0-9]+{', x)]
 
         yaml_bib = " references: \n"
         for str_inx, sub_str in enumerate(split_bib):
@@ -206,7 +206,7 @@ class PyYamlParser():
 
             yaml_data = yaml_data.rstrip(' ')
 
-        # Concat the meta, references and data yaml string and return it
+        # Concatenate the meta, references and data yaml string and return it
         yamlFile = yaml_meta + yaml_bib + '\n' + yaml_data
 
         full_file_name = path.join(path.abspath(self.base_path),

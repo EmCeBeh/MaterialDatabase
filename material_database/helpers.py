@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2020 Felix Steinbach, Daniel Schick
+# Copyright (C) 2021 Felix Steinbach, Daniel Schick, Martin Borchert
 
 """A :mod:`Helpers` module """
 
@@ -40,4 +40,3 @@ def name_to_identifer(name):
 
 def trim_dict_name(name, trim_str):
     return name.replace(trim_str, '')
-    

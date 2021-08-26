@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright (C) 2020 Felix Steinbach, Daniel Schick
+# Copyright (C) 2021 Felix Steinbach, Daniel Schick, Martin Borchert
 
 """A :mod:`Reference` module """
 
@@ -35,7 +35,7 @@ class Reference():
 
     """
 
-    def __init__(self, ID, data = None, log_level=logging.WARNING):
+    def __init__(self, ID, data = None, log_level = logging.WARNING):
         self.logger = logging.getLogger(__name__)
         self.log_level = log_level
         self.logger.setLevel(level=self.log_level)
@@ -66,6 +66,7 @@ class Reference():
         ref_dict = {}
         for ref_name, ref_data in self.__dict__.items():
             trim_name = trim_dict_name(ref_name, '')
-            if not (trim_name == 'log_level' or trim_name == 'logger' or trim_name == 'ref_ID' or trim_name == 'name'):
+            if not (trim_name == 'log_level' or trim_name == 'logger' or
+                    trim_name == 'ref_ID' or trim_name == 'name'):
                 ref_dict[trim_name] = ref_data
         return ref_dict
